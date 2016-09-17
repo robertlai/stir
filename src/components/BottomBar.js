@@ -19,6 +19,7 @@ const BottomBar = React.createClass({
 			}).then((res) => {
 				if(res.status == 201) {
 					this.refs.inputBox.value = '';
+					this.props.onSubmit();
 				}
 			});
 		}

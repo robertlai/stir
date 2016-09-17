@@ -11,7 +11,8 @@ const ConversationView = React.createClass({
 	},
 	getInitialState() {
 		return {
-			ready: false
+			ready: false,
+			scrollAtBottom: true
 		};
 	},
 	componentWillReceiveProps(nextProps) {
@@ -21,15 +22,39 @@ const ConversationView = React.createClass({
 			});
 		}
 	},
+	componentDidUpdate() {
+		if(this.state.scrollAtBottom) {
+			this.refs.conversationScroll.scrollTop = this.refs.conversationScroll.scrollHeight;
+		}
+	},
+	toBottom() {
+		this.setState({
+			scrollAtBottom: true
+		});
+	},
+	onScroll() {
+		const scrollTop = this.refs.conversationScroll.scrollTop;
+		const scrollHeight = this.refs.stream.refs.container.clientHeight + 40;
+		if(!this.state.scrollAtBottom && scrollTop >= scrollHeight) {
+			this.setState({
+				scrollAtBottom: true
+			});
+		}
+		else if(this.state.scrollAtBottom && scrollTop < scrollHeight) {
+			this.setState({
+				scrollAtBottom: false
+			});
+		}
+	},
 	render() {
 		return (
 			<div id="conversation-container">
-				<div id="conversation-inner">
+				<div ref="conversationScroll" id="conversation-inner" onScroll={this.onScroll}>
 					{
-						this.state.ready && <MessageStream conversation={this.props.conversations[this.props.params.cid]} depth={0} />
+						this.state.ready && <MessageStream ref="stream" conversation={this.props.conversations[this.props.params.cid]} depth={0} />
 					}
 				</div>
-				<BottomBar conversation_id={this.props.params.cid}/>
+				<BottomBar conversation_id={this.props.params.cid} onSubmit={this.toBottom}/>
 			</div>
 		);
 	}

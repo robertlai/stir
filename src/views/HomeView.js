@@ -1,10 +1,12 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import 'whatwg-fetch';
 
 const HomeView = React.createClass({
 	handleSubmit(e) {
 		e.preventDefault();
 		this.startConversation(this.refs.input.value);
+		this.refs.input.value = '';
 	},
 	startConversation(otherUserName) {
 		fetch(`${config.api_root}/api/conversations/new`, {
@@ -19,7 +21,9 @@ const HomeView = React.createClass({
 			credentials: 'include'
 		}).then((res) => {
 			if(res.status == 200) {
-
+				res.json().then((body) => {
+					browserHistory.push(`/conversation/${body.conversation_id}`);
+				});
 			}
 		});
 	},

@@ -10,7 +10,7 @@ const MessageStream = React.createClass({
 			</div> :
 			<div/>
 		return (
-			<div className="message-container">
+			<div ref="container" className="message-container">
 				{ this.props.conversation.map((message) => {
 					return <Message key={`message-${message._id}`} message={message} />
 				}) }

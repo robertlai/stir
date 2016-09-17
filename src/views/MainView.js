@@ -32,11 +32,18 @@ const MainView = React.createClass({
 			});
 		}
 	},
+	addConversation(conversation_id) {
+		this.setState({
+			conversation_ids: this.state.conversation_ids.concat(conversation_id)
+		});
+		socket.emit('conversationConnect', conversation_id);
+	},
 	fetchConversations() {
 		getUser().then((user) => {
 			global.user = user.user;
 			socket.on('newMessages', this.setMessages);
 			socket.on('allConversationIds', this.setConversations);
+			socket.on('newConversation', this.addConversation);
 			socket.emit('conversationSubscribe', user.user);
 			socket.on('error', () => {
 				console.log('error');
