@@ -1,0 +1,91 @@
+html {
+	height: 100%;
+	background-color: lighten($main-color, 10%);
+	font-family: Arial, Verdana, Geneva, sans-serif;
+	font-color: #222222;
+}
+
+body {
+	margin: 0;
+	height: 100%;
+	overflow: hidden;
+}
+
+h1 {
+	margin: 0 0 8px;
+	font-size: 24px;
+}
+
+button {
+	min-height: 30px;
+	padding: 5px;
+	border-radius: 15px;
+	border: none;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.12);
+	background-color: lighten($main-color, 20%);
+	color: darken($main-color, 10%);
+	font-weight: bold;
+
+	&:hover {
+		box-shadow: 0px 0px 4px white;
+		background-color: darken($main-color, 0%);
+		color: lighten($main-color, 20%);
+	}
+}
+
+input[type=text], input[type=password] {
+	border: none;
+	border-bottom: 2px solid darken($main-color, 30%);
+	width: 180px;
+}
+
+#app {
+	height: 100%;
+}
+
+#main-container {
+	overflow: hidden;
+	height: 100%;
+
+	#view-container {
+		height: calc(100% - 30px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+#bottom-bar {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	white-space: nowrap;
+	height: 30px;
+	background: rgba(92,184,92,20);
+
+	#message-text-box {
+		display: inline;
+		width: calc(100% - 60px);
+		background: transparent;
+		padding-left: 4px;
+		border: none;
+		font-size: 14px;
+		color: white;
+	}
+
+	#send-message-button {
+		display: inline;
+		width: 60px;
+		background: transparent;
+		box-shadow: none;
+		text-align: center;
+		font-size: 14px;
+		color: white;
+		line-height: 20px;
+
+		&:hover {
+			background: white;
+			color: $main-color;
+		}
+	}
+}

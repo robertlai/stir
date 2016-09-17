@@ -1,12 +1,11 @@
-import React from 'react';
-import { Link, browserHistory } from 'react-router';
 import 'whatwg-fetch';
-import config from '../../config.conf';
+import React from 'react';
+import {Link, browserHistory } from 'react-router';
 
 import Form from 'forms/Form';
-import RegisterFormSchema from 'forms/schemas/RegisterFormSchema';
+import LoginFormSchema from 'forms/schemas/LoginFormSchema';
 
-const RegisterView = React.createClass({
+const LoginView = React.createClass({
 	getInitialState() {
 		return {
 			validationEnabled: false
@@ -18,9 +17,9 @@ const RegisterView = React.createClass({
 		const { form } = this.refs;
 
 		if(form.validate()) {
-			const { username, password } = form.getValue();
+		  const { username, password } = form.getValue();
 
-			fetch(`${config.api_root}/auth/register`, {
+			fetch('/auth/login', {
 				method: 'POST',
 				headers: {
 					'Accept': 'application/json',
@@ -33,7 +32,7 @@ const RegisterView = React.createClass({
 				})
 			}).then((res) => {
 				if(res.status == 200) {
-					// browserHistory.push('/login');
+					browserHistory.push('/dashboard');
 				}
 			});
 		}
@@ -46,18 +45,18 @@ const RegisterView = React.createClass({
 		return (
 			<div id='auth_container'>
 				<form id='auth_form'>
-					<h1>Register</h1>
+					<h1>Login</h1>
 					<Form
 						ref='form'
-						schema={RegisterFormSchema}
+						schema={LoginFormSchema}
 						validationEnabled={this.state.validationEnabled}
-					/>
+					  />
 					<button id="submit-button" onClick={this.handleSubmit}>Submit</button>
-				<Link to='/login'>Login</Link>
+				<Link to='/register'>Create new account</Link>
 				</form>
 			</div>
 		);
 	}
 });
 
-export default RegisterView;
+export default LoginView;
