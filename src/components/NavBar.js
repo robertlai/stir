@@ -1,38 +1,12 @@
 import React from 'react';
-import {Link, browserHistory } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import 'whatwg-fetch';
 
 import ConversationButton from 'components/ConversationButton';
 
 const NavBar = React.createClass({
-	getInitialState() {
-		return {
-			conversations: []
-		};
-	},
-	componentDidMount() {
-		this.fetchConversations();
-	},
-	fetchConversations() {
-		fetch(`${config.api_root}/api/conversations/all`, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			credentials: 'include'
-		}).then((res) => {
-			if(res.status == 200) {
-				res.json().then((body) => {
-					this.setState({
-						conversations: body
-					});
-				});
-			}
-		});
-	},
 	handleLogout() {
-		fetch('/auth/logout', {
+		fetch(`${config.api_root}/auth/logout`, {
 			method: 'GET',
 			headers: {
 				'Accept': 'application/json',
@@ -51,8 +25,8 @@ const NavBar = React.createClass({
 	render() {
 		return (
 			<div id='navbar'>
-				{ this.state.conversations.map((conversation) => {
-					return <ConversationButton conversation={conversation}/>;
+				{ this.props.conversation_ids.map((conversation_id) => {
+					return <ConversationButton key={`button-${conversation_id}`} conversation_id={conversation_id}/>;
 				}) }
 				<button id='logout-button' onClick={this.handleLogout}>Logout</button>
 				<button id='home-button' onClick={this.goHome}>Home</button>

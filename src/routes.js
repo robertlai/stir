@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { getUser } from 'utils';
 import 'whatwg-fetch';
 
 import LoginView from 'views/LoginView';
@@ -7,19 +8,6 @@ import RegisterView from 'views/RegisterView';
 import MainView from 'views/MainView';
 import HomeView from 'views/HomeView';
 import ConversationView from 'views/ConversationView';
-
-function getUser() {
-	return fetch(`${config.api_root}/auth/getUserStatus`, {
-		method: 'POST',
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		credentials: 'include'
-	}).then((res) => {
-		return res.json();
-	});
-}
 
 const checkAuth = (nextState, replace, callback) => {
 	getUser().then((json) => {
