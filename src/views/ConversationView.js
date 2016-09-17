@@ -15,6 +15,13 @@ const ConversationView = React.createClass({
 			ready: false
 		};
 	},
+	componentWillMount() {
+		if(!this.state.ready && this.props.conversations[this.props.params.cid]) {
+			this.setState({
+				ready: true
+			});
+		}
+	},
 	componentWillReceiveProps(nextProps) {
 		if(!this.state.ready && nextProps.conversations[nextProps.params.cid]) {
 			this.setState({
