@@ -4,6 +4,7 @@ import MessageStream from 'components/MessageStream';
 import BottomBar from 'components/BottomBar';
 
 const ConversationView = React.createClass({
+	scrollAtBottom: true,
 	getDefaultProps() {
 		return {
 			conversations: {}
@@ -11,8 +12,7 @@ const ConversationView = React.createClass({
 	},
 	getInitialState() {
 		return {
-			ready: false,
-			scrollAtBottom: true
+			ready: false
 		};
 	},
 	componentWillReceiveProps(nextProps) {
@@ -23,27 +23,21 @@ const ConversationView = React.createClass({
 		}
 	},
 	componentDidUpdate() {
-		if(this.state.scrollAtBottom) {
+		if(this.scrollAtBottom) {
 			this.refs.conversationScroll.scrollTop = this.refs.conversationScroll.scrollHeight;
 		}
 	},
 	toBottom() {
-		this.setState({
-			scrollAtBottom: true
-		});
+		this.scrollAtBottom = true;
 	},
 	onScroll() {
 		const scrollTop = this.refs.conversationScroll.scrollTop;
 		const scrollHeight = this.refs.stream.refs.container.clientHeight + 40;
-		if(!this.state.scrollAtBottom && scrollTop >= scrollHeight) {
-			this.setState({
-				scrollAtBottom: true
-			});
+		if(!this.scrollAtBottom && scrollTop >= scrollHeight) {
+			this.scrollAtBottom = true;
 		}
-		else if(this.state.scrollAtBottom && scrollTop < scrollHeight) {
-			this.setState({
-				scrollAtBottom: false
-			});
+		else if(this.scrollAtBottom && scrollTop < scrollHeight) {
+			this.scrollAtBottom = false;
 		}
 	},
 	render() {
