@@ -2,10 +2,6 @@ import React from 'react';
 import 'whatwg-fetch';
 
 const HomeView = React.createClass({
-	componentDidMount() {
-		// temp
-		this.startConversation();
-	},
 	startConversation() {
 		fetch(`${config.api_root}/api/conversations/new`, {
 			method: 'POST',
@@ -18,7 +14,6 @@ const HomeView = React.createClass({
 			}),
 			credentials: 'include'
 		}).then((res) => {
-			console.log(res);
 			if(res.status == 200) {
 
 			}
