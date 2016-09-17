@@ -1,0 +1,4 @@
+node_modules
+config.conf
+dist
+npm-debug.log
