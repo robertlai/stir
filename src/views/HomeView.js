@@ -2,7 +2,11 @@ import React from 'react';
 import 'whatwg-fetch';
 
 const HomeView = React.createClass({
-	startConversation() {
+	handleSubmit(e) {
+		e.preventDefault();
+		this.startConversation(this.refs.input.value);
+	},
+	startConversation(otherUserName) {
 		fetch(`${config.api_root}/api/conversations/new`, {
 			method: 'POST',
 			headers: {
@@ -10,7 +14,7 @@ const HomeView = React.createClass({
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				otherUserName: 'Justin'
+				otherUserName: otherUserName
 			}),
 			credentials: 'include'
 		}).then((res) => {
@@ -23,7 +27,9 @@ const HomeView = React.createClass({
 		return (
 			<div id="home-container">
 				<h1>Start a conversation...</h1>
-				<input className="start-input" type="text" placeholder="Find a user" />
+				<form onSubmit={this.handleSubmit}>
+					<input ref="input" className="start-input" type="text" placeholder="Find a user" />
+				</form>
 			</div>
 		);
 	}
