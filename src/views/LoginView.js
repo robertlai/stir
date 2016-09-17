@@ -1,6 +1,7 @@
 import 'whatwg-fetch';
 import React from 'react';
 import {Link, browserHistory } from 'react-router';
+import config from '../../config.conf';
 
 import Form from 'forms/Form';
 import LoginFormSchema from 'forms/schemas/LoginFormSchema';
@@ -19,7 +20,7 @@ const LoginView = React.createClass({
 		if(form.validate()) {
 		  const { username, password } = form.getValue();
 
-			fetch('/auth/login', {
+			fetch(`${config.api_root}/auth/login`, {
 				method: 'POST',
 				headers: {
 					'Accept': 'application/json',
