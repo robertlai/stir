@@ -3,10 +3,10 @@ import Message from 'components/Message';
 
 const MessageStream = React.createClass({
 	render() {
-		var parentStreams = this.props.depth === 0 ?
+		var parentStreams = this.props.conversation.parents && this.props.depth === 0 ?
 			<div>
-				<MessageStream count={this.props.count - 1}/>
-				<MessageStream count={this.props.count - 1}/>
+				<MessageStream depth={this.props.depth - 1}/>
+				<MessageStream depth={this.props.depth - 1}/>
 			</div> :
 			<div/>
 		return (

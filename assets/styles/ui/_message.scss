@@ -1,13 +1,14 @@
 .message-container {
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-self: flex-end;
-	overflow: visible;
+	overflow: auto;
 }
 
 .message {
-	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.12);
-	margin: 10px 10px 0 10px;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.12);
+	margin: 0 10px 10px 10px;
 	padding: 10px;
 	font-size: 15px;
 	background-color: white;
@@ -31,4 +32,8 @@
 		margin: 0;
 		font-size: 16px;
 	}
+}
+
+#send-message-button {
+	background: none;
 }
