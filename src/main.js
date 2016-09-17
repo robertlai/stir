@@ -3,6 +3,6 @@ import 'style.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Hello from 'routes';
+import Routes from 'routes';
 
-ReactDOM.render(<Hello/>, document.getElementById('app'));
+ReactDOM.render(Routes, document.getElementById('app'));

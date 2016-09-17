@@ -1,11 +1,11 @@
 import React from 'react';
+import { Router, Route, Link, browserHistory } from 'react-router';
+import RegisterView from 'views/RegisterView';
 
-const Hello = React.createClass({
-	render() {
-		return <div>
-			Hello world!
-		</div>;
-	}
-});
+const Routes = (
+	<Router history={browserHistory}>
+		<Route path="/register" component={RegisterView} />
+	</Router>
+);
 
-export default Hello;
+export default Routes;
