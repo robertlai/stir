@@ -9,16 +9,25 @@ const ConversationView = React.createClass({
 			conversations: {}
 		};
 	},
-	componentDidMount() {
-
+	getInitialState() {
+		return {
+			ready: false
+		};
+	},
+	componentWillReceiveProps(nextProps) {
+		if(!this.state.ready && nextProps.conversations[nextProps.params.cid]) {
+			this.setState({
+				ready: true
+			});
+		}
 	},
 	render() {
-		console.log('ok');
-		console.log(this.props.conversations);
 		return (
 			<div id="conversation-container">
 				<div id="conversation-inner">
-					<MessageStream conversation={this.props.conversations[this.props.params.cid]} depth={0} />
+					{
+						this.state.ready && <MessageStream conversation={this.props.conversations[this.props.params.cid]} depth={0} />
+					}
 				</div>
 				<BottomBar conversation_id={this.props.params.cid}/>
 			</div>
