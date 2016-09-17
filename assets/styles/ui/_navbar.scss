@@ -3,6 +3,10 @@
 	padding: 10px;
 	background-color: $main-color;
 
+	.conversation-button {
+		margin-right: 10px;
+	}
+
 	#logout-button, #home-button {
 		float: right;
 		margin-left: 10px;

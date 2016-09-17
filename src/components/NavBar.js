@@ -2,6 +2,8 @@ import React from 'react';
 import {Link, browserHistory } from 'react-router';
 import 'whatwg-fetch';
 
+import ConversationButton from 'components/ConversationButton';
+
 const NavBar = React.createClass({
 	getInitialState() {
 		return {
@@ -21,8 +23,10 @@ const NavBar = React.createClass({
 			credentials: 'include'
 		}).then((res) => {
 			if(res.status == 200) {
-				this.setState({
-					conversations: res.body
+				res.json().then((body) => {
+					this.setState({
+						conversations: body
+					});
 				});
 			}
 		});
@@ -48,7 +52,7 @@ const NavBar = React.createClass({
 		return (
 			<div id='navbar'>
 				{ this.state.conversations.map((conversation) => {
-					return 'hi';
+					return <ConversationButton conversation={conversation}/>;
 				}) }
 				<button id='logout-button' onClick={this.handleLogout}>Logout</button>
 				<button id='home-button' onClick={this.goHome}>Home</button>
