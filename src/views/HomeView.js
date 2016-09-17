@@ -1,6 +1,29 @@
 import React from 'react';
+import 'whatwg-fetch';
 
 const HomeView = React.createClass({
+	componentDidMount() {
+		// temp
+		this.startConversation();
+	},
+	startConversation() {
+		fetch(`${config.api_root}/api/conversations/new`, {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				otherUserName: 'Justin'
+			}),
+			credentials: 'include'
+		}).then((res) => {
+			console.log(res);
+			if(res.status == 200) {
+
+			}
+		});
+	},
 	render() {
 		return (
 			<div id="home-container">

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 import 'whatwg-fetch';
-import config from '../../config.conf';
 
 import Form from 'forms/Form';
 import RegisterFormSchema from 'forms/schemas/RegisterFormSchema';
@@ -33,7 +32,7 @@ const RegisterView = React.createClass({
 				})
 			}).then((res) => {
 				if(res.status == 200) {
-					// browserHistory.push('/login');
+					browserHistory.push('/');
 				}
 			});
 		}

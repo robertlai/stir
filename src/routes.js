@@ -1,6 +1,5 @@
 import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import config from '../config.conf';
 import 'whatwg-fetch';
 
 import LoginView from 'views/LoginView';

@@ -1,7 +1,6 @@
 import 'whatwg-fetch';
 import React from 'react';
 import {Link, browserHistory } from 'react-router';
-import config from '../../config.conf';
 
 import Form from 'forms/Form';
 import LoginFormSchema from 'forms/schemas/LoginFormSchema';
@@ -33,7 +32,7 @@ const LoginView = React.createClass({
 				})
 			}).then((res) => {
 				if(res.status == 200) {
-					browserHistory.push('/dashboard');
+					browserHistory.push('/');
 				}
 			});
 		}
