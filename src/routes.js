@@ -6,6 +6,7 @@ import LoginView from 'views/LoginView';
 import RegisterView from 'views/RegisterView';
 import MainView from 'views/MainView';
 import HomeView from 'views/HomeView';
+import ConversationView from 'views/ConversationView';
 
 function getUser() {
 	return fetch('/auth/getUserStatus', {
@@ -36,7 +37,8 @@ const Routes = (
 		<Route path="/login" component={LoginView} />
 		<Route path="/register" component={RegisterView} />
 		<Route path="/" component={MainView}>
-			<IndexRoute component={HomeView} />
+			<IndexRoute component={HomeView} onEnter={checkAuth} />
+			<Route path="conversation/:cid" component={ConversationView} onEnter={checkAuth} />
 		</Route>
 	</Router>
 );
