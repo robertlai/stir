@@ -1,6 +1,5 @@
 import React from 'react';
 import Message from 'components/Message';
-import ParentStream from 'components/ParentStream';
 
 const MessageStream = React.createClass({
 	render() {
