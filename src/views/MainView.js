@@ -57,6 +57,7 @@ const MainView = React.createClass({
 		if(this.lastMergedId != newConversation._id) {
 			this.lastMergedId = newConversation._id;
 			newState.conversation_props.push(newConversation);
+			newState.conversation[newConversation._id] = [];
 			socket.emit('conversationConnect', newConversation._id);
 			browserHistory.push(`/conversation/${newConversation._id}`);
 		}
