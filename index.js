@@ -20,6 +20,8 @@ if (config.mode !== 'production') {
 	require('./bin/dev.js')(app);
 }
 
+app.use(express.static(path.join(__dirname, assetsroot)));
+
 app.get('*', function(req, res) {
 	res.render('index.html');
 });
