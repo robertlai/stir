@@ -3,13 +3,12 @@ import { browserHistory } from 'react-router';
 
 const ConversationButton = React.createClass({
 	enterConversation() {
+		this.props.onSelect(this.props.index);
 		browserHistory.push(`/conversation/${this.props.conversation_id}`)
 	},
 	render() {
 		return (
-			<button className="conversation-button" onClick={this.enterConversation}>
-
-			</button>
+			<button className={`conversation-button${this.props.selected ? ' selected' : ''}`} onClick={this.enterConversation} />
 		);
 	}
 });

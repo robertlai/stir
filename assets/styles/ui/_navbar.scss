@@ -9,6 +9,10 @@
 		margin-right: 10px;
 	}
 
+	.selected {
+		background-color: lighten($main-color, 10%);
+	}
+
 	#logout-button, #home-button, #secret-button {
 		float: right;
 		margin-left: 10px;

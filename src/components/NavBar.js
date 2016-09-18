@@ -5,6 +5,11 @@ import 'whatwg-fetch';
 import ConversationButton from 'components/ConversationButton';
 
 const NavBar = React.createClass({
+	getInitialState() {
+		return {
+			selectedIndex: -1
+		};
+	},
 	handleLogout() {
 		fetch(`${config.api_root}/auth/logout`, {
 			method: 'GET',
@@ -22,11 +27,17 @@ const NavBar = React.createClass({
 	goHome() {
 		browserHistory.push('/');
 	},
+	select(i) {
+		this.setState({
+			selectedIndex: i
+		});
+	},
 	render() {
 		return (
 			<div id='navbar'>
-				{ this.props.conversation_ids.map((conversation_id) => {
-					return <ConversationButton key={`button-${conversation_id}`} conversation_id={conversation_id}/>;
+				{ this.props.conversation_ids.map((conversation_id, index) => {
+					console.log(this.state.selectedIndex)
+					return <ConversationButton index={index} selected={index == this.state.selectedIndex} key={`button-${conversation_id}`} conversation_id={conversation_id} onSelect={this.select}/>;
 				}) }
 				<button id='logout-button' onClick={this.handleLogout}>Logout</button>
 				<button id='home-button' onClick={this.goHome}>Home</button>
