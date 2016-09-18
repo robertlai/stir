@@ -7,7 +7,7 @@ const MainView = React.createClass({
 	lastMergedId: '',
 	getInitialState() {
 		return {
-			conversation_ids: [],
+			conversation_props: [],
 			conversations: {},
 			clever: false,
 			cleverMessage: ''
@@ -35,32 +35,32 @@ const MainView = React.createClass({
 		}
 		this.setState(newState);
 	},
-	setConversations(conversation_ids) {
-		if(conversation_ids) {
+	setConversations(conversation_props) {
+		if(conversation_props) {
 			this.setState({
-				conversation_ids: conversation_ids
+				conversation_props: conversation_props
 			});
-			conversation_ids.forEach((conversation_id) => {
-				socket.emit('conversationConnect', conversation_id);
+			conversation_props.forEach((conversation_prop) => {
+				socket.emit('conversationConnect', conversation_prop._id);
 			});
 		}
 	},
-	addConversation(conversation_id) {
+	addConversation(conversation_prop) {
 		this.setState({
-			conversation_ids: this.state.conversation_ids.concat(conversation_id)
+			conversation_props: this.state.conversation_props.concat(conversation_prop)
 		});
-		socket.emit('conversationConnect', conversation_id);
+		socket.emit('conversationConnect', conversation_prop._id);
 	},
 	mergeNotification(merge) {
 		const { _oldConversation1, _oldConversation2, newConversation } = merge;
 		var newState = this.state;
 		if(this.lastMergedId != newConversation._id) {
 			this.lastMergedId = newConversation._id;
-			newState.conversation_ids.push(newConversation._id);
+			newState.conversation_props.push(newConversation);
 			socket.emit('conversationConnect', newConversation._id);
 			browserHistory.push(`/conversation/${newConversation._id}`);
 		}
-		newState.conversation_ids = _.difference(newState.conversation_ids, [_oldConversation1, _oldConversation2]);
+		newState.conversation_props = _.differenceBy(newState.conversation_props, [_oldConversation1, _oldConversation2], '_id');
 		this.setState(newState);
 	},
 	fetchConversations() {
@@ -84,7 +84,7 @@ const MainView = React.createClass({
 	render() {
 		return (
 			<div id="main-container">
-				<NavBar conversations={this.state.conversations} conversation_ids={this.state.conversation_ids} secret={this.toggleCleverBot} />
+				<NavBar conversations={this.state.conversations} conversation_props={this.state.conversation_props} secret={this.toggleCleverBot} />
 				<div id="view-container">
 					{ React.cloneElement(this.props.children, {conversations: this.state.conversations, cleverMessage: this.state.cleverMessage}) }
 				</div>

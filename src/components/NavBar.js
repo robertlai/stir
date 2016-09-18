@@ -35,12 +35,12 @@ const NavBar = React.createClass({
 	render() {
 		return (
 			<div id='navbar'>
-				{ _(this.props.conversation_ids)
-					.omitBy((conversation_id) => {
-						return !this.props.conversations[conversation_id] || this.props.conversations[conversation_id].isMerged;
+				{ _(this.props.conversation_props)
+					.omitBy((conversation_prop) => {
+						return !this.props.conversations[conversation_prop._id] || conversation_prop.isMerged;
 					})
-					.map((conversation_id, index) => {
-						return <ConversationButton index={index} selected={index == this.state.selectedIndex} key={`button-${conversation_id}`} conversation_id={conversation_id} onSelect={this.select}/>;
+					.map((conversation_prop, index) => {
+						return <ConversationButton index={index} selected={index == this.state.selectedIndex} key={`button-${conversation_prop._id}`} conversation_id={conversation_prop._id} onSelect={this.select}/>;
 					})
 					.value()
 				}
