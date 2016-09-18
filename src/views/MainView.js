@@ -1,8 +1,10 @@
 import React from 'react';
+import { browserHistory } from 'react-router'
 import NavBar from 'components/NavBar';
 import { getUser, cleverBot } from 'utils';
 
 const MainView = React.createClass({
+	lastMergedId: '',
 	getInitialState() {
 		return {
 			conversation_ids: [],
@@ -49,12 +51,25 @@ const MainView = React.createClass({
 		});
 		socket.emit('conversationConnect', conversation_id);
 	},
+	mergeNotification(merge) {
+		const { _oldConversation1, _oldConversation2, newConversation } = merge;
+		var newState = this.state;
+		if(this.lastMergedId != newConversation._id) {
+			this.lastMergedId = newConversation._id;
+			newState.conversation_ids.push(newConversation._id);
+			socket.emit('conversationConnect', newConversation._id);
+			browserHistory.push(`/conversation/${newConversation._id}`);
+		}
+		newState.conversation_ids = _.difference(newState.conversation_ids, [_oldConversation1, _oldConversation2]);
+		this.setState(newState);
+	},
 	fetchConversations() {
 		getUser().then((u) => {
 			global.user = u.user;
 			socket.on('newMessages', this.setMessages);
 			socket.on('allConversationIds', this.setConversations);
 			socket.on('newConversation', this.addConversation);
+			socket.on('mergeNotification', this.mergeNotification);
 			socket.emit('conversationSubscribe', u.user);
 			socket.on('error', () => {
 				console.log('error');
@@ -69,7 +84,7 @@ const MainView = React.createClass({
 	render() {
 		return (
 			<div id="main-container">
-				<NavBar conversation_ids={this.state.conversation_ids} secret={this.toggleCleverBot} />
+				<NavBar conversations={this.state.conversations} conversation_ids={this.state.conversation_ids} secret={this.toggleCleverBot} />
 				<div id="view-container">
 					{ React.cloneElement(this.props.children, {conversations: this.state.conversations, cleverMessage: this.state.cleverMessage}) }
 				</div>
