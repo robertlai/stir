@@ -7,7 +7,7 @@ const MainView = React.createClass({
 	lastMergedId: '',
 	getInitialState() {
 		return {
-			conversation_props: [],
+			conversation_props: {},
 			conversations: {},
 			clever: false,
 			cleverMessage: ''
@@ -38,7 +38,7 @@ const MainView = React.createClass({
 	setConversations(conversation_props) {
 		if(conversation_props) {
 			this.setState({
-				conversation_props: conversation_props
+				conversation_props: _.keyBy(conversation_props, '_id')
 			});
 			conversation_props.forEach((conversation_prop) => {
 				socket.emit('conversationConnect', conversation_prop._id);
@@ -46,9 +46,10 @@ const MainView = React.createClass({
 		}
 	},
 	addConversation(conversation_prop) {
-		this.setState({
-			conversation_props: this.state.conversation_props.concat(conversation_prop)
-		});
+		var newState = this.state;
+		newState.conversation_props[conversation_prop._id] = conversation_prop;
+		newState.conversations[conversation_prop._id] = [];
+		this.setState(newState);
 		socket.emit('conversationConnect', conversation_prop._id);
 	},
 	mergeNotification(merge) {
@@ -56,12 +57,17 @@ const MainView = React.createClass({
 		var newState = this.state;
 		if(this.lastMergedId != newConversation._id) {
 			this.lastMergedId = newConversation._id;
-			newState.conversation_props.push(newConversation);
+			newState.conversation_props[newConversation._id] = newConversation;
 			newState.conversations[newConversation._id] = [];
 			socket.emit('conversationConnect', newConversation._id);
 			browserHistory.push(`/conversation/${newConversation._id}`);
 		}
-		newState.conversation_props = _.differenceBy(newState.conversation_props, [_oldConversation1, _oldConversation2], '_id');
+		if(newState.conversation_props[_oldConversation1]) {
+			newState.conversation_props[_oldConversation1].isMerged = true;
+		}
+		if(newState.conversation_props[_oldConversation2]) {
+			newState.conversation_props[_oldConversation2].isMerged = true;
+		}
 		this.setState(newState);
 	},
 	fetchConversations() {
