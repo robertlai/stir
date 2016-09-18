@@ -7,7 +7,8 @@ const ConversationView = React.createClass({
 	scrollAtBottom: true,
 	getDefaultProps() {
 		return {
-			conversations: {}
+			conversations: {},
+			cleverMessage: ''
 		};
 	},
 	getInitialState() {
@@ -22,17 +23,41 @@ const ConversationView = React.createClass({
 			});
 		}
 	},
+	componentDidMount() {
+		this.refs.conversationScroll.scrollTop = this.refs.conversationScroll.scrollHeight;
+	},
 	componentWillReceiveProps(nextProps) {
 		if(!this.state.ready && nextProps.conversations[nextProps.params.cid]) {
 			this.setState({
 				ready: true
 			});
 		}
+		if(nextProps.cleverMessage != this.props.cleverMessage) {
+			this.addNewMessage(nextProps.cleverMessage);
+		}
 	},
 	componentDidUpdate() {
 		if(this.scrollAtBottom) {
 			this.refs.conversationScroll.scrollTop = this.refs.conversationScroll.scrollHeight;
 		}
+	},
+	addNewMessage(message) {
+		fetch(`${config.api_root}/api/messages/new`, {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify({
+				_conversation: this.props.params.cid,
+				messageContent: message
+			})
+		}).then((res) => {
+			if(res.status == 201) {
+
+			}
+		});
 	},
 	toBottom() {
 		this.scrollAtBottom = true;

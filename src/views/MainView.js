@@ -1,12 +1,14 @@
 import React from 'react';
 import NavBar from 'components/NavBar';
-import { getUser } from 'utils';
+import { getUser, cleverBot } from 'utils';
 
 const MainView = React.createClass({
 	getInitialState() {
 		return {
 			conversation_ids: [],
-			conversations: {}
+			conversations: {},
+			clever: false,
+			cleverMessage: ''
 		};
 	},
 	componentDidMount() {
@@ -19,6 +21,15 @@ const MainView = React.createClass({
 		}
 		else {
 			newState.conversations[conversation_id] = messages;
+		}
+		if(this.state.clever && messages[messages.length-1]._user._id != user._id) {
+			cleverBot(messages[messages.length-1].content).then((res) => {
+				res.json().then((body) => {
+					this.setState({
+						cleverMessage: body.message
+					});
+				});
+			});
 		}
 		this.setState(newState);
 	},
@@ -50,12 +61,17 @@ const MainView = React.createClass({
 			});
 		});
 	},
+	toggleCleverBot() {
+		this.setState({
+			clever: !this.state.clever
+		});
+	},
 	render() {
 		return (
 			<div id="main-container">
-				<NavBar conversation_ids={this.state.conversation_ids} />
+				<NavBar conversation_ids={this.state.conversation_ids} secret={this.toggleCleverBot} />
 				<div id="view-container">
-					{ React.cloneElement(this.props.children, {conversations: this.state.conversations}) }
+					{ React.cloneElement(this.props.children, {conversations: this.state.conversations, cleverMessage: this.state.cleverMessage}) }
 				</div>
 			</div>
 		);

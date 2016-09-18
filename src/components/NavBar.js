@@ -30,6 +30,7 @@ const NavBar = React.createClass({
 				}) }
 				<button id='logout-button' onClick={this.handleLogout}>Logout</button>
 				<button id='home-button' onClick={this.goHome}>Home</button>
+				<button id='secret-button' onClick={this.props.secret}>Home</button>
 			</div>
 		);
 	}

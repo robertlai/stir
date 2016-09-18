@@ -9,8 +9,14 @@
 		margin-right: 10px;
 	}
 
-	#logout-button, #home-button {
+	#logout-button, #home-button, #secret-button {
 		float: right;
 		margin-left: 10px;
+	}
+
+	#secret-button {
+		background: transparent;
+		color: transparent;
+		box-shadow: none;
 	}
 }
