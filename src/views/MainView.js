@@ -19,7 +19,7 @@ const MainView = React.createClass({
 	setMessages(conversation_id, messages) {
 		var newState = this.state;
 		if(this.state.conversations[conversation_id]) {
-			newState.conversations[conversation_id] = newState.conversations[conversation_id].concat(messages);
+			newState.conversations[conversation_id] = _.uniqBy(newState.conversations[conversation_id].concat(messages), '_id');
 		}
 		else {
 			newState.conversations[conversation_id] = messages;
@@ -93,7 +93,7 @@ const MainView = React.createClass({
 			<div id="main-container">
 				<NavBar conversations={this.state.conversations} conversation_props={this.state.conversation_props} secret={this.toggleCleverBot} />
 				<div id="view-container">
-					{ React.cloneElement(this.props.children, {conversations: this.state.conversations, cleverMessage: this.state.cleverMessage}) }
+					{ React.cloneElement(this.props.children, {conversation_props: this.state.conversation_props, conversations: this.state.conversations, cleverMessage: this.state.cleverMessage}) }
 				</div>
 			</div>
 		);

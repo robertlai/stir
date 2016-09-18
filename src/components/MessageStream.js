@@ -1,19 +1,31 @@
 import React from 'react';
 import Message from 'components/Message';
+import ParentStream from 'components/ParentStream';
 
 const MessageStream = React.createClass({
 	render() {
-		var parentStreams = this.props.conversation.parents && this.props.depth === 0 ?
-			<div>
-				<MessageStream depth={this.props.depth - 1}/>
-				<MessageStream depth={this.props.depth - 1}/>
-			</div> :
-			<div/>
+		var parentStreams = <div/>;
+
+		if(this.props.conversation_props && this.props.conversation_props._parents && this.props.depth === 0) {
+			parentStreams = (
+				<div>
+				{
+					this.props.conversation_props._parents.map((parent, index) => {
+						console.log(parent);
+						return <MessageStream depth={this.props.depth + 1} conversations={this.props.conversations} key={`msgparent-${index}`} conversation_id={parent} depth={this.props.depth + 1} />
+					})
+				}
+				</div>
+			);
+		}
 		return (
-			<div ref="container" className="message-container">
-				{ this.props.conversation.map((message) => {
-					return <Message key={`message-${message._id}`} message={message} />
-				}) }
+			<div>
+				{ parentStreams }
+				<div ref="container" className={`message-container${this.props.depth > 0 ? ' half-width' : ''}`} >
+					{ this.props.conversations[this.props.conversation_id].map((message) => {
+						return <Message key={`message-${this.props.conversation_id}-${message._id}-${this.props.depth}`} message={message} />
+					}) }
+				</div>
 			</div>
 		);
 	}
