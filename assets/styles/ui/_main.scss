@@ -68,6 +68,11 @@ input[type=text], input[type=password] {
 	#conversation-inner {
 		height: calc(100% - 50px);
 		overflow: auto;
+
+		>div {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 }
 
