@@ -6,8 +6,13 @@
 	flex-direction: column;
 }
 
+.row {
+	flex-direction: row;
+}
+
 .half-width {
 	width: 50%;
+	float: left;
 }
 
 .message {

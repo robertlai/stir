@@ -11,7 +11,6 @@ const MessageStream = React.createClass({
 				<div>
 				{
 					this.props.conversation_props._parents.map((parent, index) => {
-						console.log(parent);
 						return <MessageStream depth={this.props.depth + 1} conversations={this.props.conversations} key={`msgparent-${index}`} conversation_id={parent} depth={this.props.depth + 1} />
 					})
 				}
@@ -22,7 +21,7 @@ const MessageStream = React.createClass({
 			<div>
 				{ parentStreams }
 				<div ref="container" className={`message-container${this.props.depth > 0 ? ' half-width' : ''}`} >
-					{ this.props.conversations[this.props.conversation_id].map((message) => {
+					{ this.props.conversations[this.props.conversation_id] && this.props.conversations[this.props.conversation_id].map((message) => {
 						return <Message key={`message-${this.props.conversation_id}-${message._id}-${this.props.depth}`} message={message} />
 					}) }
 				</div>
