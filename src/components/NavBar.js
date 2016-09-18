@@ -36,7 +36,6 @@ const NavBar = React.createClass({
 		return (
 			<div id='navbar'>
 				{ this.props.conversation_ids.map((conversation_id, index) => {
-					console.log(this.state.selectedIndex)
 					return <ConversationButton index={index} selected={index == this.state.selectedIndex} key={`button-${conversation_id}`} conversation_id={conversation_id} onSelect={this.select}/>;
 				}) }
 				<button id='logout-button' onClick={this.handleLogout}>Logout</button>

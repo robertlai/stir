@@ -2,6 +2,9 @@ import React from 'react';
 import 'whatwg-fetch';
 
 const BottomBar = React.createClass({
+	componentDidMount() {
+		this.refs.inputBox.focus();
+	},
 	addNewMessage() {
 		let text = this.refs.inputBox.value.trim();
 		if(text != '') {
